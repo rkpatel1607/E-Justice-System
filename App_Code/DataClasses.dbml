@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="dbCrime" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\dbCrime.mdf;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="dbCrimeConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Area" Member="Areas">
+    <Type Name="Area">
+      <Column Name="Aid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Aname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Zcid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Area_Crime" Member="Crimes" ThisKey="Aid" OtherKey="Aid" Type="Crime" />
+      <Association Name="Area_PoliceStation" Member="PoliceStations" ThisKey="Aid" OtherKey="Aid" Type="PoliceStation" />
+      <Association Name="Area_User" Member="Users" ThisKey="Aid" OtherKey="Aid" Type="User" />
+      <Association Name="CityZone_Area" Member="CityZone" ThisKey="Zcid" OtherKey="Zcid" Type="CityZone" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.City" Member="Cities">
+    <Type Name="City">
+      <Column Name="Cid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Cname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="City_CityZone" Member="CityZones" ThisKey="Cid" OtherKey="Cid" Type="CityZone" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CityZone" Member="CityZones">
+    <Type Name="CityZone">
+      <Column Name="Zcid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Cid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Zid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="CityZone_Area" Member="Areas" ThisKey="Zcid" OtherKey="Zcid" Type="Area" />
+      <Association Name="City_CityZone" Member="City" ThisKey="Cid" OtherKey="Cid" Type="City" IsForeignKey="true" />
+      <Association Name="Zone_CityZone" Member="Zone" ThisKey="Zid" OtherKey="Zid" Type="Zone" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Crime" Member="Crimes">
+    <Type Name="Crime">
+      <Column Name="CrimeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Aid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Uid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CrimeTypeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Priority" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DOC" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DOU" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsDone" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Crimedetails" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Detail" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="Crime_CrimePic" Member="CrimePics" ThisKey="CrimeId" OtherKey="CrimeId" Type="CrimePic" />
+      <Association Name="Crime_Criminal" Member="Criminals" ThisKey="CrimeId" OtherKey="CrimeId" Type="Criminal" />
+      <Association Name="Area_Crime" Member="Area" ThisKey="Aid" OtherKey="Aid" Type="Area" IsForeignKey="true" />
+      <Association Name="CrimeType_Crime" Member="CrimeType" ThisKey="CrimeTypeId" OtherKey="CrimeTypeId" Type="CrimeType" IsForeignKey="true" />
+      <Association Name="User_Crime" Member="User" ThisKey="Uid" OtherKey="Uid" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CrimePics" Member="CrimePics">
+    <Type Name="CrimePic">
+      <Column Name="Cpid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CrimeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CrimePath" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Crime_CrimePic" Member="Crime" ThisKey="CrimeId" OtherKey="CrimeId" Type="Crime" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Feedback" Member="Feedbacks">
+    <Type Name="Feedback">
+      <Column Name="Fid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Uid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DOF" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsRead" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FMsg" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="User_Feedback" Member="User" ThisKey="Uid" OtherKey="Uid" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Law" Member="Laws">
+    <Type Name="Law">
+      <Column Name="Lid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Ltype" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Ltitle" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Ldescription" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Message" Member="Messages">
+    <Type Name="Message">
+      <Column Name="Msid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Uid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Mtitle" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DOS" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Msgdetails" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="Message_MessageTO" Member="MessageTOs" ThisKey="Msid" OtherKey="Msid" Type="MessageTO" />
+      <Association Name="User_Message" Member="User" ThisKey="Uid" OtherKey="Uid" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MessageTO" Member="MessageTOs">
+    <Type Name="MessageTO">
+      <Column Name="Mtoid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Msid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Uid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsRead" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Message_MessageTO" Member="Message" ThisKey="Msid" OtherKey="Msid" Type="Message" IsForeignKey="true" />
+      <Association Name="User_MessageTO" Member="User" ThisKey="Uid" OtherKey="Uid" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PoliceStation" Member="PoliceStations">
+    <Type Name="PoliceStation">
+      <Column Name="Psid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Aid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PTitle" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PContactNo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PEmail" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PersonContact" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Area_PoliceStation" Member="Area" ThisKey="Aid" OtherKey="Aid" Type="Area" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserType" Member="UserTypes">
+    <Type Name="UserType">
+      <Column Name="UtypeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Utypename" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="UserType_User" Member="Users" ThisKey="UtypeID" OtherKey="UtypeID" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Zone" Member="Zones">
+    <Type Name="Zone">
+      <Column Name="Zid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Zname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Zone_CityZone" Member="CityZones" ThisKey="Zid" OtherKey="Zid" Type="CityZone" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CrimeType" Member="CrimeTypes">
+    <Type Name="CrimeType">
+      <Column Name="CrimeTypeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CTName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="CrimeType_Crime" Member="Crimes" ThisKey="CrimeTypeId" OtherKey="CrimeTypeId" Type="Crime" />
+      <Association Name="CrimeType_Criminal" Member="Criminals" ThisKey="CrimeTypeId" OtherKey="CrimeTypeID" Type="Criminal" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User">
+      <Column Name="Uid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Uname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ULname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Uph" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Uemailid" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Upassword" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ugender" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="UtypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DOJ" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Lastseen" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsAuthenticate" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Aid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usphoto" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UAdd" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="User_Crime" Member="Crimes" ThisKey="Uid" OtherKey="Uid" Type="Crime" />
+      <Association Name="User_Feedback" Member="Feedbacks" ThisKey="Uid" OtherKey="Uid" Type="Feedback" />
+      <Association Name="User_Message" Member="Messages" ThisKey="Uid" OtherKey="Uid" Type="Message" />
+      <Association Name="User_MessageTO" Member="MessageTOs" ThisKey="Uid" OtherKey="Uid" Type="MessageTO" />
+      <Association Name="User_Criminal" Member="Criminals" ThisKey="Uid" OtherKey="Uid" Type="Criminal" />
+      <Association Name="Area_User" Member="Area" ThisKey="Aid" OtherKey="Aid" Type="Area" IsForeignKey="true" />
+      <Association Name="UserType_User" Member="UserType" ThisKey="UtypeID" OtherKey="UtypeID" Type="UserType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Criminal" Member="Criminals">
+    <Type Name="Criminal">
+      <Column Name="Criminalid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CrimeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Uid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CrimeTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Crime_Criminal" Member="Crime" ThisKey="CrimeId" OtherKey="CrimeId" Type="Crime" IsForeignKey="true" />
+      <Association Name="User_Criminal" Member="User" ThisKey="Uid" OtherKey="Uid" Type="User" IsForeignKey="true" />
+      <Association Name="CrimeType_Criminal" Member="CrimeType" ThisKey="CrimeTypeID" OtherKey="CrimeTypeId" Type="CrimeType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.News" Member="News">
+    <Type Name="New">
+      <Column Name="Nid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NTitle" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDisplay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NDescp" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="NImg" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.Area_Insert" Method="Area_Insert">
+    <Parameter Name="Aname" Parameter="aname" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Zcid" Parameter="zcid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Area_Update" Method="Area_Update">
+    <Parameter Name="Aid" Parameter="aid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Aname" Parameter="aname" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Zcid" Parameter="zcid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.City_Insert" Method="City_Insert">
+    <Parameter Name="Cname" Parameter="cname" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.City_Update" Method="City_Update">
+    <Parameter Name="Cid" Parameter="cid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Cname" Parameter="cname" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.CityZone_Insert" Method="CityZone_Insert">
+    <Parameter Name="Cid" Parameter="cid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Zid" Parameter="zid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.CityZone_Update" Method="CityZone_Update">
+    <Parameter Name="Zcid" Parameter="zcid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Cid" Parameter="cid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Zid" Parameter="zid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Crime_Insert" Method="Crime_Insert">
+    <Parameter Name="Aid" Parameter="aid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Uid" Parameter="uid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CrimeTypeID" Parameter="crimeTypeID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Crimedetails" Parameter="crimedetails" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="Priority" Parameter="priority" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="DOC" Parameter="dOC" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="DOU" Parameter="dOU" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="IsDone" Parameter="isDone" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="Detail" Parameter="detail" Type="System.String" DbType="VarChar(MAX)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Crime_Update" Method="Crime_Update">
+    <Parameter Name="CrimeId" Parameter="crimeId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Aid" Parameter="aid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Uid" Parameter="uid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CrimeTypeID" Parameter="crimeTypeID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Crimedetails" Parameter="crimedetails" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="Priority" Parameter="priority" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="DOC" Parameter="dOC" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="DOU" Parameter="dOU" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="IsDone" Parameter="isDone" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="Detail" Parameter="detail" Type="System.String" DbType="VarChar(MAX)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.CrimePics_Insert" Method="CrimePics_Insert">
+    <Parameter Name="CrimeId" Parameter="crimeId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CrimePath" Parameter="crimePath" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.CrimePics_Update" Method="CrimePics_Update">
+    <Parameter Name="Cpid" Parameter="cpid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CrimeId" Parameter="crimeId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CrimePath" Parameter="crimePath" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Feedback_Insert" Method="Feedback_Insert">
+    <Parameter Name="Uid" Parameter="uid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DOF" Parameter="dOF" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="FMsg" Parameter="fMsg" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="IsRead" Parameter="isRead" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Feedback_Update" Method="Feedback_Update">
+    <Parameter Name="Fid" Parameter="fid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Uid" Parameter="uid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DOF" Parameter="dOF" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="FMsg" Parameter="fMsg" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="IsRead" Parameter="isRead" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Law_Insert" Method="Law_Insert">
+    <Parameter Name="Ltype" Parameter="ltype" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Ltitle" Parameter="ltitle" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Ldescription" Parameter="ldescription" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Law_Update" Method="Law_Update">
+    <Parameter Name="Lid" Parameter="lid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Ltype" Parameter="ltype" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Ltitle" Parameter="ltitle" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Ldescription" Parameter="ldescription" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Message_Insert" Method="Message_Insert">
+    <Parameter Name="Uid" Parameter="uid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Mtitle" Parameter="mtitle" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Msgdetails" Parameter="msgdetails" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="DOS" Parameter="dOS" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Message_Update" Method="Message_Update">
+    <Parameter Name="Msid" Parameter="msid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Uid" Parameter="uid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Mtitle" Parameter="mtitle" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Msgdetails" Parameter="msgdetails" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="DOS" Parameter="dOS" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.MessageTO_Insert" Method="MessageTO_Insert">
+    <Parameter Name="Msid" Parameter="msid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Uid" Parameter="uid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IsRead" Parameter="isRead" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.MessageTO_Update" Method="MessageTO_Update">
+    <Parameter Name="Mtoid" Parameter="mtoid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Msid" Parameter="msid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Uid" Parameter="uid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IsRead" Parameter="isRead" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.PoliceStation_Insert" Method="PoliceStation_Insert">
+    <Parameter Name="Aid" Parameter="aid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PTitle" Parameter="pTitle" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="PContactNo" Parameter="pContactNo" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="PEmail" Parameter="pEmail" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="PersonContact" Parameter="personContact" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.PoliceStation_Update" Method="PoliceStation_Update">
+    <Parameter Name="Psid" Parameter="psid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Aid" Parameter="aid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PTitle" Parameter="pTitle" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="PContactNo" Parameter="pContactNo" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="PEmail" Parameter="pEmail" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="PersonContact" Parameter="personContact" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UserType_Insert" Method="UserType_Insert">
+    <Parameter Name="Utypename" Parameter="utypename" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UserType_Update" Method="UserType_Update">
+    <Parameter Name="UtypeID" Parameter="utypeID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Utypename" Parameter="utypename" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Zone_Insert" Method="Zone_Insert">
+    <Parameter Name="Zname" Parameter="zname" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Zone_Update" Method="Zone_Update">
+    <Parameter Name="Zid" Parameter="zid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Zname" Parameter="zname" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.CrimeType_Insert" Method="CrimeType_Insert">
+    <Parameter Name="CTName" Parameter="cTName" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.CrimeType_Update" Method="CrimeType_Update">
+    <Parameter Name="CrimeTypeId" Parameter="crimeTypeId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CTName" Parameter="cTName" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Users_Insert" Method="Users_Insert">
+    <Parameter Name="Uname" Parameter="uname" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="ULname" Parameter="uLname" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="UAdd" Parameter="uAdd" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="Uph" Parameter="uph" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Uemailid" Parameter="uemailid" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Upassword" Parameter="upassword" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="ugender" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="UtypeID" Parameter="utypeID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DOJ" Parameter="dOJ" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Lastseen" Parameter="lastseen" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Usphoto" Parameter="usphoto" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsAuthenticate" Parameter="isAuthenticate" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="Aid" Parameter="aid" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Users_Upadte" Method="Users_Upadte">
+    <Parameter Name="Uid" Parameter="uid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Uname" Parameter="uname" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="ULname" Parameter="uLname" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="UAdd" Parameter="uAdd" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="Uph" Parameter="uph" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Uemailid" Parameter="uemailid" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Upassword" Parameter="upassword" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="ugender" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="UtypeID" Parameter="utypeID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DOJ" Parameter="dOJ" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Lastseen" Parameter="lastseen" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Usphoto" Parameter="usphoto" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsAuthenticate" Parameter="isAuthenticate" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="Aid" Parameter="aid" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Criminal_Insert" Method="Criminal_Insert">
+    <Parameter Name="CrimeId" Parameter="crimeId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Uid" Parameter="uid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CrimeTypeID" Parameter="crimeTypeID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Criminal_Update" Method="Criminal_Update">
+    <Parameter Name="Criminalid" Parameter="criminalid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CrimeId" Parameter="crimeId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Uid" Parameter="uid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CrimeTypeID" Parameter="crimeTypeID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.News_Insert" Method="News_Insert">
+    <Parameter Name="NTitle" Parameter="nTitle" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="NDescp" Parameter="nDescp" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="NImg" Parameter="nImg" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="NDate" Parameter="nDate" Type="System.DateTime" DbType="Date" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.News_Update" Method="News_Update">
+    <Parameter Name="Nid" Parameter="nid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="NTitle" Parameter="nTitle" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="NDescp" Parameter="nDescp" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="NImg" Parameter="nImg" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="IsDisplay" Parameter="isDisplay" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="NDate" Parameter="nDate" Type="System.DateTime" DbType="Date" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>
