@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Admin_Panel_MsgList : System.Web.UI.Page
+{
+    DataClassesDataContext dc = new DataClassesDataContext();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        var data = (from ta in dc.Messages
+                    join tc in dc.Users on ta.Uid equals tc.Uid
+                    select new { ta.Msid, tc.Uemailid, tc.Uph,ta.Mtitle,ta.DOS,ta.Msgdetails}).ToList();
+
+        string str = "<table>";
+        str += "<tr><th>Edit</th><th>Delete</th><th>Message</th><th>User Email</th><th>Phone Num</th><th>Message Title</th><th>Message Details</th><th>Date of Msg Sent</th></tr>";
+        foreach (var item in data)
+        {
+            str += "<tr><td><a href=MsgEdit.aspx?id=" + item.Msid + ">Update</a></td><td>Delete</td><td>" + item.Uemailid + "</td><td>" + item.Uph + "</td><td>" + item.Mtitle + "</td><td>" + item.Msgdetails + "</td><td>" + item.DOS + "</td></tr>";
+        }
+        str += "</table>";
+        display.InnerHtml = str;
+
+
+    }
+    protected void btnaradd_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("MsgEdit.aspx");
+    }
+}

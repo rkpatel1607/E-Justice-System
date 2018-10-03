@@ -1,0 +1,42 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin_Panel/Admin_MasterPage.master" AutoEventWireup="true" CodeFile="FeedbackEdit.aspx.cs" Inherits="Admin_Panel_FeedbackEdit" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    Add / Modify Feedback
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <table>
+        <tr>
+            <td>First name:
+            </td>
+            <td>
+                
+                <asp:TextBox ID="txtfname" runat="server"></asp:TextBox>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>Last name:
+            </td>
+            <td>
+                
+                <asp:TextBox ID="txtlname" runat="server"></asp:TextBox>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>Feedback Message</td>
+            <td>
+               
+                <asp:TextBox ID="txtfeedback" runat="server"></asp:TextBox>
+               
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" align="center" class="auto-style2">
+                <asp:Button ID="btnarsbmt" runat="server" Text="Submit" OnClick="btnarsbmt_Click"/>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+
